@@ -1,5 +1,4 @@
-
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import { HouseData } from "../components/Data/HouseData.jsx";
 
 export const StoreContext = createContext(null);
@@ -8,16 +7,13 @@ const StoreContextProvider = (props) => {
   const [data, setData] = useState(HouseData);
   const [price, setPrice] = useState();
   const [date, setDate] = useState("");
-  const [property,setProperty ]=useState("");
+  const [property, setProperty] = useState("");
+  const [showLiked, setShowLiked] = useState(false); 
 
   const onSubmitHandler = () => {
     let filteredData = HouseData;
 
-   
-
-
-
-    if(price){
+    if (price) {
       switch (price) {
         case "1":
           filteredData = filteredData.filter(
@@ -35,7 +31,7 @@ const StoreContextProvider = (props) => {
           );
           break;
         default:
-          filteredData=HouseData
+          filteredData = HouseData;
           break;
       }
     }
@@ -54,16 +50,16 @@ const StoreContextProvider = (props) => {
         case "villa":
           filteredData = filteredData.filter((house) => house.type === "villa");
           break;
-          case "mansion":
+        case "mansion":
           filteredData = filteredData.filter((house) => house.type === "mansion");
           break;
-          case "cottage":
+        case "cottage":
           filteredData = filteredData.filter((house) => house.type === "cottage");
           break;
-          case "house":
+        case "house":
           filteredData = filteredData.filter((house) => house.type === "house");
           break;
-          case "lodge":
+        case "lodge":
           filteredData = filteredData.filter((house) => house.type === "lodge");
           break;
         default:
@@ -81,18 +77,18 @@ const StoreContextProvider = (props) => {
   };
 
   const likePage = () => {
-    const likedData = data.filter((item) => item.liked);
-    setData(likedData);
+    setShowLiked(!showLiked);
   };
 
   const contextValue = {
-    data,
+    data: showLiked ? data.filter((item) => item.liked) : data, 
     onSubmitHandler,
     setPrice,
     setDate,
     likedHandler,
     likePage,
-    setProperty 
+    setProperty,
+    showLiked 
   };
 
   return (
