@@ -8,11 +8,12 @@ const StoreContextProvider = (props) => {
   const [price, setPrice] = useState();
   const [date, setDate] = useState("");
   const [property, setProperty] = useState("");
-  const [showLiked, setShowLiked] = useState(false); 
+  const [showLiked, setShowLiked] = useState(false);
 
   const onSubmitHandler = () => {
     let filteredData = HouseData;
 
+    // Price filtering
     if (price) {
       switch (price) {
         case "1":
@@ -36,12 +37,14 @@ const StoreContextProvider = (props) => {
       }
     }
 
+    // Date filtering
     if (date) {
       filteredData = filteredData.filter(
         (house) => new Date(house.available_from) <= new Date(date)
       );
     }
 
+    // Property type filtering
     if (property) {
       switch (property) {
         case "All":
@@ -72,23 +75,34 @@ const StoreContextProvider = (props) => {
 
   const likedHandler = (index) => {
     const updatedData = [...data];
-    updatedData[index].liked = !updatedData[index].liked;
+    updatedData[index].liked = !updatedData[index].liked; 
     setData(updatedData);
+
+    if (showLiked) {
+      const likedItems = updatedData.filter((item) => item.liked);
+      setData(likedItems);
+    }
   };
 
   const likePage = () => {
     setShowLiked(!showLiked);
+    if (!showLiked) {
+      const likedItems = data.filter((item) => item.liked);
+      setData(likedItems);
+    } else {
+      setData(HouseData);
+    }
   };
 
   const contextValue = {
-    data: showLiked ? data.filter((item) => item.liked) : data, 
+    data,
     onSubmitHandler,
     setPrice,
     setDate,
     likedHandler,
     likePage,
     setProperty,
-    showLiked 
+    showLiked, 
   };
 
   return (
