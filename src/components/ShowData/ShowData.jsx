@@ -19,7 +19,7 @@ const ShowData = () => {
                 <div className="content">
                     <div className="price">
                         <span>&#8377;{item.amount_per_day}/day</span>
-                        <span onClick={()=>likedHandler(index)} style={{color:item.liked?"red":"black"}}><FaHeart/></span>
+                        <span onClick={()=>likedHandler(index)} style={{color:item.liked?"red":"black", cursor:"pointer"}}><FaHeart/></span>
                     </div>
                     <div className="name">
                         <p>{item.name_of_property}</p>
